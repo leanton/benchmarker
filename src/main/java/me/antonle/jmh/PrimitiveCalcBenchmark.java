@@ -29,7 +29,7 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.sample;
+package me.antonle.jmh;
 
 import org.openjdk.jmh.annotations.*;
 

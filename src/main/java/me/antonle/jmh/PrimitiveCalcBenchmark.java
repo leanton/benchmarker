@@ -109,6 +109,47 @@ public class PrimitiveCalcBenchmark {
         System.out.println(res);
     }
 
+    @Benchmark
+    public void boxedPrimitiveWithoutStream(BoxState state) {
+        int res = 0;
+        for (Integer t : state.list) {
+            Integer x = t;
+            x *= 2;
+            x -= 12;
+            x *= x;
+            res += x;
+        }
+        System.out.println(res);
+    }
+
+    @Benchmark
+    public void boxedPrimitiveMathSingleCall(BoxState state) {
+        int res = state.list.stream()
+            .map((x) -> {
+                x = x * 2;
+                x -= 12;
+                x *= x;
+                return x;
+            })
+            .mapToInt(x -> x)
+            .sum();
+
+        System.out.println(res);
+    }
+
+    @Benchmark
+    public void unboxedPrimitiveMathSingleCall(UnboxedState state) {
+        int res = Arrays.stream(state.list)
+            .map((x) -> {
+                x = x * 2;
+                x -= 12;
+                x *= x;
+                return x;
+            })
+            .sum();
+
+        System.out.println(res);
+    }
 /*
 Benchmark                                              Mode  Cnt   Score   Error  Units
 PrimitiveCalcBenchmark.boxedPrimitiveMath             thrpt   25   0.677 ± 0.009  ops/s
